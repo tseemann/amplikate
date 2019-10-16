@@ -4,6 +4,9 @@ sudo: false
 
 perl:
     - "5.26"
+
+env:
+  - BLASTVER=2.9.0
     
 addons:
     apt:
@@ -11,17 +14,15 @@ addons:
             - gzip
 
 install:
-    - "export PATH=$PWD/bin:$PATH"
-#    - "cpanm --quiet --notest File::Which"
+    - "wget http://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/${BLASTVER}/ncbi-blast-${BLASTVER}+-x64-linux.tar.gz"
+    - "tar zxvf ncbi-blast-${BLASTVER}+-x64-linux.tar.gz"
+    - "curl https://raw.githubusercontent.com/tseemann/any2fasta/master/any2fasta > bin/any2fasta"
+    - "chmod +x bin/any2fasta"
+    - "export PATH=$PWD/bin:$PWD/ncbi-blast-${BLASTVER}+/bin:$PATH"
 
 script:
-    - "perl-biotool --version"
-    - "perl-biotool --help"
-    - "perl-biotool --check dummy"
-    - "perl-biotool dummy"
-    - "perl-biotool |& grep 'Need at least 1'"
-    - perl-biotool dummy --myinc --myinc --myinc |& grep "'myinc' => 3"
-    - perl-biotool dummy --myint -42 |& grep "myint' => '-42'"
-    - "! perl-biotool file1 file2"
+    - "amplikate --version"
+    - "amplikate --help"
+    - "blastn -version"
     - "cd perl5/Biotool && for M in *.pm ; do perl $M ; done"
 

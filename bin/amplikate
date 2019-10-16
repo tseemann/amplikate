@@ -11,11 +11,11 @@ use Data::Dumper;
 sub main {
   my $opt = Biotool::Getopt->getopt( 
   {
-    name => 'perl-biotool',
-    version => '0.0.2',
-    desc => 'Helps do bio stuff easier and quicker',
+    name => 'amplikate',
+    version => '0.0.1',
+    desc => 'Generic typing tool from amplicons and/or in silico PCR',
     author => 'Torsten Seemann',
-    url => 'https://github.com/tseemann/perl-biotool',
+    url => 'https://github.com/tseemann/amplikate',
   },
   {
     mytype => { type=>'choice', choices=>[qw(ABC DEF GH3)], desc=>"Type of thing" },
@@ -41,7 +41,7 @@ sub main {
 
   print Dumper($opt);
 
-  require_exe($_) for qw(sort gzip perl sh awk);
+  require_exe($_) for qw(any2fasta makeblastdb blastn);
   return if $opt->{check};
 }
 
